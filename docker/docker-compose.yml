@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command: start-dev --import-realm
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./keycloak/keycloak-config:/opt/keycloak/data/import
+      - ./keycloak/keycloak-data:/opt/keycloak/data
+    restart: unless-stopped
+    networks:
+      - ztca-net
+
+  pomerium:
+    image: pomerium/pomerium:latest
+    container_name: pomerium
+    depends_on:
+      - keycloak
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./pomerium/config/pomerium.yaml:/pomerium/config.yaml:ro
+    restart: unless-stopped
+    networks:
+      - ztca-net
+
+networks:
+  ztca-net:
+    name: ztca-portal-clean_ztca-net
+    external: true

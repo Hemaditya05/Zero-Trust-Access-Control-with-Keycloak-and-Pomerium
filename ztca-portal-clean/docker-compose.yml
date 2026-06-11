@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # ── Backend API ─────────────────────────────
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+    networks:
+      - ztca-net
+
+  # ── Main Portal ────────────────────────────
+  main-portal:
+    build:
+      context: ./apps/main-portal
+    expose:
+      - "3000"
+    networks:
+      - ztca-net
+
+  # ── Admin Panel ────────────────────────────
+  admin-panel:
+    build:
+      context: ./apps/admin-panel
+    expose:
+      - "3000"
+    networks:
+      - ztca-net
+
+  # ── Server Console ─────────────────────────
+  server-console:
+    build:
+      context: ./apps/server-console
+    expose:
+      - "3000"
+    networks:
+      - ztca-net
+
+  # ── Audit Logs ─────────────────────────────
+  audit-logs:
+    build:
+      context: ./apps/audit-logs
+    expose:
+      - "3000"
+    networks:
+      - ztca-net
+
+  # ── Dev Dashboard ──────────────────────────
+  dev-dashboard:
+    build:
+      context: ./apps/dev-dashboard
+    expose:
+      - "3000"
+    networks:
+      - ztca-net
+
+  # ── Internal Tools ─────────────────────────
+  internal-tools:
+    build:
+      context: ./apps/internal-tools
+    expose:
+      - "3000"
+    networks:
+      - ztca-net
+
+  # ── Learning Portal ────────────────────────
+  learning-portal:
+    build:
+      context: ./apps/learning-portal
+    expose:
+      - "3000"
+    networks:
+      - ztca-net
+
+networks:
+  ztca-net:
+    driver: bridge

@@ -1,0 +1,1 @@
+FROM pomerium/pomerium:latest

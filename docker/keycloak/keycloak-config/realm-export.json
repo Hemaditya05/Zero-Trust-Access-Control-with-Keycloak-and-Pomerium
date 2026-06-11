@@ -1,0 +1,63 @@
+{
+  "realm": "ztca",
+  "enabled": true,
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [{"type":"password","value":"admin"}],
+      "groups": ["admin"]
+    },
+    {
+      "username": "engineer",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [{"type":"password","value":"engineer"}],
+      "groups": ["engineer"]
+    },
+    {
+      "username": "intern",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [{"type":"password","value":"intern"}],
+      "groups": ["intern"]
+    }
+  ],
+  "groups": [
+    {"name": "admin"},
+    {"name": "engineer"},
+    {"name": "intern"}
+  ],
+  "clients": [
+    {
+      "clientId": "ztca-client",
+      "directAccessGrantsEnabled": true,
+      "publicClient": false,
+      "protocol": "openid-connect",
+      "secret": "DhuNn2TRSuouByO36AWg2LRP9GNgybkD",
+      "redirectUris": ["*"],
+      "defaultClientScopes": [
+        "email",
+        "profile",
+        "roles",
+        "groups"
+      ],
+      "protocolMappers": [
+        {
+          "name": "groups",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-group-membership-mapper",
+          "consentRequired": false,
+          "config": {
+            "full.path": "false",
+            "claim.name": "groups",
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "access.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ]
+}

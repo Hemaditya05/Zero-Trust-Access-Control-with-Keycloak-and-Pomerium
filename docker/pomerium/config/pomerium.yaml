@@ -1,0 +1,83 @@
+# Identity Provider (Keycloak)
+authenticate_service_url: https://localhost
+idp_provider: oidc
+idp_provider_url: http://host.docker.internal:8080/realms/ztca-manual
+idp_client_id: ztca-client
+idp_client_secret: "YOUR_CLIENT_SECRET"  # copy from Keycloak client credentials
+idp_scopes: ["openid", "email", "profile"]
+
+# Routes (per app)
+routes:
+  - from: https://localhost
+    prefix: /learning-portal
+    preserve_host_header: true
+    to: http://learning-portal:3000
+    policy:
+      - allow:
+          or:
+            - claim/groups: intern
+            - claim/groups: engineer
+            - claim/groups: admin
+
+  - from: https://localhost
+    prefix: /dev-dashboard
+    preserve_host_header: true
+    to: http://dev-dashboard:3000
+    policy:
+      - allow:
+          or:
+            - claim/groups: engineer
+            - claim/groups: admin
+
+  - from: https://localhost
+    prefix: /admin-panel
+    preserve_host_header: true
+    to: http://admin-panel:3000
+    policy:
+      - allow:
+          or:
+            - claim/groups: admin
+            
+
+  - from: https://localhost
+    prefix: /audit-logs
+    preserve_host_header: true
+    to: http://audit-logs:3000
+    policy:
+      - allow:
+          or:
+            - claim/groups: admin
+
+  - from: https://localhost
+    prefix: /internal-tools
+    preserve_host_header: true
+    to: http://internal-tools:3000
+    policy:
+      - allow:
+          or:
+            - claim/groups: engineer
+            - claim/groups: admin
+
+  - from: https://localhost
+    prefix: /main-portal
+    preserve_host_header: true
+    to: http://main-portal:3000
+    policy:
+      - allow:
+          or:
+            - claim/groups: admin
+            - claim/groups: engineer
+            - claim/groups: intern
+
+  - from: https://localhost
+    prefix: /server-console
+    preserve_host_header: true
+    to: http://server-console:3000
+    policy:
+      - allow:
+          or:
+            - claim/groups: admin
+
+
+# Common Pomerium options
+log_level: debug
